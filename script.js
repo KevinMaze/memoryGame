@@ -12,6 +12,28 @@ const cards = [
 
 const gameBoard = document.getElementById('game-board');
 let selectedCards = [];
+let score = 0;
+let scoreDiv = document.getElementById('score')
+
+// Méthode pour afficher le compte à rebours
+function timer(){
+    const timerDiv = document.getElementById('timer');
+    let seconde = 60;
+    let timer = setInterval(() => {
+        seconde--;
+        console.log(seconde);
+        if(seconde == -1){
+            alert('Vous avez perdu');
+            clearInterval(timer);
+        }else{
+            timerDiv.innerHTML = seconde;
+        }
+    }, 1000);
+}
+
+document.getElementById('begin-game').addEventListener('click', () => {
+    timer();
+});
 
 // Méthode createCard avec en parametre la valeur url de l'image et retourne l'objet en html
 function createCard(CardUrl){
@@ -60,19 +82,32 @@ function onCardClick(e){
 
     selectedCards.push(card);
     if(selectedCards.length == 2){
-        if(selectedCards[0].dataset.value == selectedCards[1].dataset.value){
-            // on a trouvé une paire
-            selectedCards[0].classList.add("matched");
-            selectedCards[1].classList.add("matched");
-            selectedCards[0].removeEventListener('click', onCardClick);
-            selectedCards[1].removeEventListener('click', onCardClick);
-        }
-        else{
-            // on a pas trouvé
-            selectedCards[0].classList.remove('flip');
-            selectedCards[1].classList.remove('flip');
-        }
-        selectedCards = [];
+        setTimeout(() => {
+            if(selectedCards[0].dataset.value == selectedCards[1].dataset.value){
+                // on a trouvé une paire
+                selectedCards[0].classList.add("matched");
+                selectedCards[1].classList.add("matched");
+                selectedCards[0].removeEventListener('click', onCardClick);
+                selectedCards[1].removeEventListener('click', onCardClick);
+                score += 10;
+                scoreDiv.innerHTML = score;
+
+                const allCardNotFinded = document.querySelectorAll('.card:not(.matched)');
+                console.log(allCardNotFinded.length);
+                if(allCardNotFinded.length ==0) {
+                    //Le joueur à gagné
+                    alert('Vous avez gagné');
+                }
+            }
+            else{
+                // on a pas trouvé
+                selectedCards[0].classList.remove('flip');
+                selectedCards[1].classList.remove('flip');
+            }
+            selectedCards = [];
+        }, 1000)
     }
 }
+
+
 

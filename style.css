@@ -19,19 +19,40 @@ body {
     background-color: #ccc;
     border-radius: 5px;
     cursor: pointer;
+
+    /* animation */
+    transform: rotateY(0deg);
+    transition: all 0.5s;
 }
 
 .card .card-content {
     opacity: 0;
     max-width: 100%;
+    transition: all 0.3s;
 }
 
 .card.flip .card-content {
     opacity: 1;
+    max-width: 100%;
+
 }
 
 .card.matched {
     border: solid 4px rgb(0, 255, 0);
     box-sizing: border-box;
     cursor: default;
+}
+
+.card.flip {
+    transform: rotateY(180deg);
+}
+
+#timer {
+    margin: 20px;
+    font-size: 20px;
+}
+
+#score {
+    margin: 20px;
+    font-size: 20px;
 }
